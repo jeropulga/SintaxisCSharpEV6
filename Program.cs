@@ -286,7 +286,50 @@ internal static class Program
     private static void ReportOverdue() => ShowAction("Generar reporte de préstamos vencidos.");
     private static void ReportSummary() => ShowAction("Generar resumen de reportes.");
 
-    private static void ShowPersistenceMenu() => ShowAction("Abrir menú de guardar / cargar datos.");
+    private static void ShowPersistenceMenu()
+    {
+        bool volver = false;
+        while (!volver)
+        {
+            Console.WriteLine("\n=== Guardar / Cargar datos ===");
+            Console.WriteLine("1. Guardar datos");
+            Console.WriteLine("2. Cargar datos");
+            Console.WriteLine("3. Reiniciar datos");
+            Console.WriteLine("0. Volver");
+
+            switch (ReadOption("Seleccione una opción: ", 0, 3))
+            {
+                case 0: volver = true; break;
+                case 1: SaveData(); break;
+                case 2: LoadData(); break;
+                case 3: ConfirmResetData(); break;
+            }
+        }
+    }
+
+    private static void ConfirmResetData()
+    {
+        if (ReadYesNo("¿Confirma reiniciar los datos? (S/N): "))
+            ResetData();
+        else
+            Console.WriteLine("Reinicio cancelado.");
+    }
+
+    private static bool ReadYesNo(string prompt)
+    {
+        while (true)
+        {
+            Console.Write(prompt);
+            string? answer = Console.ReadLine()?.Trim();
+            if (string.Equals(answer, "S", StringComparison.OrdinalIgnoreCase)) return true;
+            if (string.Equals(answer, "N", StringComparison.OrdinalIgnoreCase)) return false;
+            Console.WriteLine("Entrada no válida. Escriba S o N.");
+        }
+    }
+
+    private static void SaveData() => ShowAction("Guardar datos (simulación por consola).");
+    private static void LoadData() => ShowAction("Cargar datos (simulación por consola).");
+    private static void ResetData() => ShowAction("Reiniciar datos (simulación por consola).");
 
     private static bool ConfirmExitAndSave()
     {
