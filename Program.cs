@@ -176,7 +176,65 @@ internal static class Program
     private static void ToggleUserActiveStatus() => ShowAction("Activar / desactivar usuario.");
     private static void DeleteUser() => ShowAction("Eliminar usuario. Validar no permitir si tiene préstamos activos.");
 
-    private static void ShowLoansMenu() => ShowAction("Abrir menú de préstamos.");
+    private static void ShowLoansMenu()
+    {
+        bool volver = false;
+        while (!volver)
+        {
+            Console.WriteLine("\n=== Préstamos ===");
+            Console.WriteLine("1. Crear préstamo");
+            Console.WriteLine("2. Listar préstamos");
+            Console.WriteLine("3. Ver detalle de préstamo (por ID)");
+            Console.WriteLine("4. Registrar devolución");
+            Console.WriteLine("5. Eliminar préstamo");
+            Console.WriteLine("0. Volver");
+
+            switch (ReadOption("Seleccione una opción: ", 0, 5))
+            {
+                case 0: volver = true; break;
+                case 1: CreateLoan(); break;
+                case 2: ListLoansMenu(); break;
+                case 3: ViewLoanDetail(); break;
+                case 4: RegisterReturn(); break;
+                case 5: DeleteLoan(); break;
+            }
+        }
+    }
+
+    private static void ListLoansMenu()
+    {
+        bool volver = false;
+        while (!volver)
+        {
+            Console.WriteLine("\n=== Listar préstamos ===");
+            Console.WriteLine("1. Todos");
+            Console.WriteLine("2. Activos");
+            Console.WriteLine("3. Cerrados");
+            Console.WriteLine("0. Volver");
+
+            switch (ReadOption("Seleccione una opción: ", 0, 3))
+            {
+                case 0: volver = true; break;
+                case 1: ListLoansAll(); break;
+                case 2: ListLoansActive(); break;
+                case 3: ListLoansClosed(); break;
+            }
+        }
+    }
+
+    private static void CreateLoan()
+    {
+        ShowAction("Crear préstamo (simulación).");
+        Console.WriteLine("Validaciones sugeridas: usuario activo, libro disponible y datos requeridos.");
+    }
+
+    private static void ListLoansAll() => ShowAction("Listar todos los préstamos.");
+    private static void ListLoansActive() => ShowAction("Listar préstamos activos.");
+    private static void ListLoansClosed() => ShowAction("Listar préstamos cerrados.");
+    private static void ViewLoanDetail() => ShowAction("Ver detalle del préstamo por ID.");
+    private static void RegisterReturn() => ShowAction("Registrar devolución: marcar devuelto y libro disponible.");
+    private static void DeleteLoan() => ShowAction("Eliminar préstamo. Aplicar reglas sugeridas para su eliminación.");
+
     private static void ShowSearchReportsMenu() => ShowAction("Abrir menú de búsquedas y reportes.");
     private static void ShowPersistenceMenu() => ShowAction("Abrir menú de guardar / cargar datos.");
 
