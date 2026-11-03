@@ -122,7 +122,60 @@ internal static class Program
     private static void EditBookYearCategory() => ShowAction("Editar año / categoría del libro.");
     private static void DeleteBook() => ShowAction("Eliminar libro. Validar no permitir si está prestado.");
 
-    private static void ShowUsersMenu() => ShowAction("Abrir menú de usuarios.");
+    private static void ShowUsersMenu()
+    {
+        bool volver = false;
+        while (!volver)
+        {
+            Console.WriteLine("\n=== Usuarios ===");
+            Console.WriteLine("1. Registrar usuario");
+            Console.WriteLine("2. Listar usuarios");
+            Console.WriteLine("3. Ver detalle (por ID/documento)");
+            Console.WriteLine("4. Actualizar usuario");
+            Console.WriteLine("5. Eliminar usuario");
+            Console.WriteLine("0. Volver");
+
+            switch (ReadOption("Seleccione una opción: ", 0, 5))
+            {
+                case 0: volver = true; break;
+                case 1: RegisterUser(); break;
+                case 2: ListUsers(); break;
+                case 3: ViewUserDetail(); break;
+                case 4: UpdateUserMenu(); break;
+                case 5: DeleteUser(); break;
+            }
+        }
+    }
+
+    private static void UpdateUserMenu()
+    {
+        bool volver = false;
+        while (!volver)
+        {
+            Console.WriteLine("\n=== Actualizar usuario ===");
+            Console.WriteLine("1. Editar nombre");
+            Console.WriteLine("2. Editar contacto");
+            Console.WriteLine("3. Activar / desactivar");
+            Console.WriteLine("0. Volver");
+
+            switch (ReadOption("Seleccione una opción: ", 0, 3))
+            {
+                case 0: volver = true; break;
+                case 1: EditUserName(); break;
+                case 2: EditUserContact(); break;
+                case 3: ToggleUserActiveStatus(); break;
+            }
+        }
+    }
+
+    private static void RegisterUser() => ShowAction("Registrar usuario.");
+    private static void ListUsers() => ShowAction("Listar usuarios.");
+    private static void ViewUserDetail() => ShowAction("Ver detalle de usuario por ID/documento.");
+    private static void EditUserName() => ShowAction("Editar nombre del usuario.");
+    private static void EditUserContact() => ShowAction("Editar contacto del usuario.");
+    private static void ToggleUserActiveStatus() => ShowAction("Activar / desactivar usuario.");
+    private static void DeleteUser() => ShowAction("Eliminar usuario. Validar no permitir si tiene préstamos activos.");
+
     private static void ShowLoansMenu() => ShowAction("Abrir menú de préstamos.");
     private static void ShowSearchReportsMenu() => ShowAction("Abrir menú de búsquedas y reportes.");
     private static void ShowPersistenceMenu() => ShowAction("Abrir menú de guardar / cargar datos.");
