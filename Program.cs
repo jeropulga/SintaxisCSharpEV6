@@ -235,7 +235,57 @@ internal static class Program
     private static void RegisterReturn() => ShowAction("Registrar devolución: marcar devuelto y libro disponible.");
     private static void DeleteLoan() => ShowAction("Eliminar préstamo. Aplicar reglas sugeridas para su eliminación.");
 
-    private static void ShowSearchReportsMenu() => ShowAction("Abrir menú de búsquedas y reportes.");
+    private static void ShowSearchReportsMenu()
+    {
+        bool volver = false;
+        while (!volver)
+        {
+            Console.WriteLine("\n=== Búsquedas y reportes ===");
+            Console.WriteLine("1. Buscar libro (título/autor/ID/categoría)");
+            Console.WriteLine("2. Buscar usuario (nombre/ID)");
+            Console.WriteLine("3. Reportes");
+            Console.WriteLine("0. Volver");
+
+            switch (ReadOption("Seleccione una opción: ", 0, 3))
+            {
+                case 0: volver = true; break;
+                case 1: SearchBook(); break;
+                case 2: SearchUser(); break;
+                case 3: ReportsMenu(); break;
+            }
+        }
+    }
+
+    private static void ReportsMenu()
+    {
+        bool volver = false;
+        while (!volver)
+        {
+            Console.WriteLine("\n=== Reportes ===");
+            Console.WriteLine("1. Por usuario");
+            Console.WriteLine("2. Por libro");
+            Console.WriteLine("3. Vencidos");
+            Console.WriteLine("4. Resumen");
+            Console.WriteLine("0. Volver");
+
+            switch (ReadOption("Seleccione una opción: ", 0, 4))
+            {
+                case 0: volver = true; break;
+                case 1: ReportByUser(); break;
+                case 2: ReportByBook(); break;
+                case 3: ReportOverdue(); break;
+                case 4: ReportSummary(); break;
+            }
+        }
+    }
+
+    private static void SearchBook() => ShowAction("Buscar libro por título, autor, ID o categoría.");
+    private static void SearchUser() => ShowAction("Buscar usuario por nombre o ID.");
+    private static void ReportByUser() => ShowAction("Generar reporte por usuario.");
+    private static void ReportByBook() => ShowAction("Generar reporte por libro.");
+    private static void ReportOverdue() => ShowAction("Generar reporte de préstamos vencidos.");
+    private static void ReportSummary() => ShowAction("Generar resumen de reportes.");
+
     private static void ShowPersistenceMenu() => ShowAction("Abrir menú de guardar / cargar datos.");
 
     private static bool ConfirmExitAndSave()
