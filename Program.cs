@@ -333,7 +333,10 @@ internal static class Program
 
     private static bool ConfirmExitAndSave()
     {
-        ShowAction("Salir del programa.");
+        if (ReadYesNo("¿Guardar antes de salir? (S/N): "))
+            SaveData();
+
+        Console.WriteLine("Saliendo del programa.");
         return true;
     }
 
