@@ -45,7 +45,83 @@ internal static class Program
         }
     }
 
-    private static void ShowBooksMenu() => ShowAction("Abrir menú de libros.");
+    private static void ShowBooksMenu()
+    {
+        bool volver = false;
+        while (!volver)
+        {
+            Console.WriteLine("\n=== Libros ===");
+            Console.WriteLine("1. Registrar libro");
+            Console.WriteLine("2. Listar libros");
+            Console.WriteLine("3. Ver detalle (por ID/ISBN)");
+            Console.WriteLine("4. Actualizar libro");
+            Console.WriteLine("5. Eliminar libro");
+            Console.WriteLine("0. Volver");
+
+            switch (ReadOption("Seleccione una opción: ", 0, 5))
+            {
+                case 0: volver = true; break;
+                case 1: RegisterBook(); break;
+                case 2: ListBooksMenu(); break;
+                case 3: ViewBookDetail(); break;
+                case 4: UpdateBookMenu(); break;
+                case 5: DeleteBook(); break;
+            }
+        }
+    }
+
+    private static void ListBooksMenu()
+    {
+        bool volver = false;
+        while (!volver)
+        {
+            Console.WriteLine("\n=== Listar libros ===");
+            Console.WriteLine("1. Listar todos");
+            Console.WriteLine("2. Listar disponibles");
+            Console.WriteLine("3. Listar prestados");
+            Console.WriteLine("0. Volver");
+
+            switch (ReadOption("Seleccione una opción: ", 0, 3))
+            {
+                case 0: volver = true; break;
+                case 1: ListBooksAll(); break;
+                case 2: ListBooksAvailable(); break;
+                case 3: ListBooksBorrowed(); break;
+            }
+        }
+    }
+
+    private static void UpdateBookMenu()
+    {
+        bool volver = false;
+        while (!volver)
+        {
+            Console.WriteLine("\n=== Actualizar libro ===");
+            Console.WriteLine("1. Editar título");
+            Console.WriteLine("2. Editar autor");
+            Console.WriteLine("3. Editar año / categoría");
+            Console.WriteLine("0. Volver");
+
+            switch (ReadOption("Seleccione una opción: ", 0, 3))
+            {
+                case 0: volver = true; break;
+                case 1: EditBookTitle(); break;
+                case 2: EditBookAuthor(); break;
+                case 3: EditBookYearCategory(); break;
+            }
+        }
+    }
+
+    private static void RegisterBook() => ShowAction("Registrar libro.");
+    private static void ListBooksAll() => ShowAction("Listar todos los libros.");
+    private static void ListBooksAvailable() => ShowAction("Listar libros disponibles.");
+    private static void ListBooksBorrowed() => ShowAction("Listar libros prestados.");
+    private static void ViewBookDetail() => ShowAction("Ver detalle de libro por ID/ISBN.");
+    private static void EditBookTitle() => ShowAction("Editar título del libro.");
+    private static void EditBookAuthor() => ShowAction("Editar autor del libro.");
+    private static void EditBookYearCategory() => ShowAction("Editar año / categoría del libro.");
+    private static void DeleteBook() => ShowAction("Eliminar libro. Validar no permitir si está prestado.");
+
     private static void ShowUsersMenu() => ShowAction("Abrir menú de usuarios.");
     private static void ShowLoansMenu() => ShowAction("Abrir menú de préstamos.");
     private static void ShowSearchReportsMenu() => ShowAction("Abrir menú de búsquedas y reportes.");
