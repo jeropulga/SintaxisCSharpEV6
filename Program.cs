@@ -2,6 +2,21 @@ using System;
 
 internal static class Program
 {
+    private static readonly Libro LibroPruebaUno = new(
+        1, "9780307474728", "Cien años de soledad", "Gabriel García Márquez", 1967, "Novela");
+    private static readonly Libro LibroPruebaDos = new(
+        2, "9788497592208", "El principito", "Antoine de Saint-Exupéry", 1943, "Fábula", disponible: false);
+    private static readonly Usuario UsuarioPruebaUno = new(
+        1, "1001", "Ana Pérez", "ana@correo.com");
+    private static readonly Usuario UsuarioPruebaDos = new(
+        2, "1002", "Luis Gómez", "luis@correo.com", activo: false);
+    private static readonly Prestamo PrestamoPrueba = new(
+        1,
+        LibroPruebaUno,
+        UsuarioPruebaUno,
+        DateTime.Today.AddDays(-5),
+        DateTime.Today.AddDays(2));
+
     private static void Main()
     {
         ShowMainMenu();
@@ -113,7 +128,18 @@ internal static class Program
     }
 
     private static void RegisterBook() => ShowAction("Registrar libro.");
-    private static void ListBooksAll() => ShowAction("Listar todos los libros.");
+    private static void ListBooksAll()
+    {
+        ShowAction("Mostrar objetos de prueba de libros.");
+        Console.WriteLine("\n--- Libro 1 ---");
+        Console.WriteLine(LibroPruebaUno.ResumenCorto());
+        Console.WriteLine(LibroPruebaUno.DetalleCompleto());
+        Console.WriteLine($"Validación Disponible: {LibroPruebaUno.Disponible}");
+        Console.WriteLine("\n--- Libro 2 ---");
+        Console.WriteLine(LibroPruebaDos.ResumenCorto());
+        Console.WriteLine(LibroPruebaDos.DetalleCompleto());
+        Console.WriteLine($"Validación Disponible: {LibroPruebaDos.Disponible}");
+    }
     private static void ListBooksAvailable() => ShowAction("Listar libros disponibles.");
     private static void ListBooksBorrowed() => ShowAction("Listar libros prestados.");
     private static void ViewBookDetail() => ShowAction("Ver detalle de libro por ID/ISBN.");
@@ -169,7 +195,18 @@ internal static class Program
     }
 
     private static void RegisterUser() => ShowAction("Registrar usuario.");
-    private static void ListUsers() => ShowAction("Listar usuarios.");
+    private static void ListUsers()
+    {
+        ShowAction("Mostrar objetos de prueba de usuarios.");
+        Console.WriteLine("\n--- Usuario 1 ---");
+        Console.WriteLine(UsuarioPruebaUno.ResumenCorto());
+        Console.WriteLine(UsuarioPruebaUno.DetalleCompleto());
+        Console.WriteLine($"Validación Activo: {UsuarioPruebaUno.Activo}");
+        Console.WriteLine("\n--- Usuario 2 ---");
+        Console.WriteLine(UsuarioPruebaDos.ResumenCorto());
+        Console.WriteLine(UsuarioPruebaDos.DetalleCompleto());
+        Console.WriteLine($"Validación Activo: {UsuarioPruebaDos.Activo}");
+    }
     private static void ViewUserDetail() => ShowAction("Ver detalle de usuario por ID/documento.");
     private static void EditUserName() => ShowAction("Editar nombre del usuario.");
     private static void EditUserContact() => ShowAction("Editar contacto del usuario.");
@@ -228,7 +265,15 @@ internal static class Program
         Console.WriteLine("Validaciones sugeridas: usuario activo, libro disponible y datos requeridos.");
     }
 
-    private static void ListLoansAll() => ShowAction("Listar todos los préstamos.");
+    private static void ListLoansAll()
+    {
+        ShowAction("Mostrar objeto de prueba de préstamo.");
+        Console.WriteLine(PrestamoPrueba.ResumenCorto());
+        Console.WriteLine(PrestamoPrueba.DetalleCompleto());
+        Console.WriteLine($"Validación Estado: {PrestamoPrueba.Estado}");
+        Console.WriteLine($"Validación EstaVencido(): {PrestamoPrueba.EstaVencido()}");
+        Console.WriteLine($"Validación DiasTranscurridos(): {PrestamoPrueba.DiasTranscurridos()}");
+    }
     private static void ListLoansActive() => ShowAction("Listar préstamos activos.");
     private static void ListLoansClosed() => ShowAction("Listar préstamos cerrados.");
     private static void ViewLoanDetail() => ShowAction("Ver detalle del préstamo por ID.");
