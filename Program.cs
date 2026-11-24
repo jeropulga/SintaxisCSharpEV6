@@ -33,16 +33,18 @@ internal static class Program
             Console.WriteLine("3. Préstamos");
             Console.WriteLine("4. Búsquedas y reportes");
             Console.WriteLine("5. Guardar / Cargar datos");
-            Console.WriteLine("6. Salir");
+            Console.WriteLine("6. Demostración EV08 (servicios)");
+            Console.WriteLine("7. Salir");
 
-            switch (ReadOption("Seleccione una opción: ", 1, 6))
+            switch (ReadOption("Seleccione una opción: ", 1, 7))
             {
                 case 1: ShowBooksMenu(); break;
                 case 2: ShowUsersMenu(); break;
                 case 3: ShowLoansMenu(); break;
                 case 4: ShowSearchReportsMenu(); break;
                 case 5: ShowPersistenceMenu(); break;
-                case 6: salir = ConfirmExitAndSave(); break;
+                case 6: RunServicesDemo(); break;
+                case 7: salir = ConfirmExitAndSave(); break;
             }
         }
     }
@@ -350,6 +352,62 @@ internal static class Program
                 case 3: ConfirmResetData(); break;
             }
         }
+    }
+
+    private static void RunServicesDemo()
+    {
+        var libros = new LibroService();
+        var usuarios = new UsuarioService();
+        var prestamos = new PrestamoService();
+
+        var cienAnios = new Libro(1, "9780307474728", "Cien años de soledad", "Gabriel García Márquez", 1967, "Novela", disponible: false);
+        var principito = new Libro(2, "9788497592208", "El principito", "Antoine de Saint-Exupéry", 1943, "Fábula", disponible: false);
+        var codigoDaVinci = new Libro(3, "9780307474278", "El código Da Vinci", "Dan Brown", 2003, "Misterio");
+        libros.AgregarLibro(cienAnios);
+        libros.AgregarLibro(principito);
+        libros.AgregarLibro(codigoDaVinci);
+
+        var ana = new Usuario(1, "1001", "Ana Pérez", "ana@correo.com");
+        var luis = new Usuario(2, "1002", "Luis Gómez", "luis@correo.com", activo: false);
+        var maria = new Usuario(3, "1003", "María Rojas", "maria@correo.com");
+        usuarios.AgregarUsuario(ana);
+        usuarios.AgregarUsuario(luis);
+        usuarios.AgregarUsuario(maria);
+
+        prestamos.AgregarPrestamo(new Prestamo(1, cienAnios, ana, DateTime.Today.AddDays(-5), DateTime.Today.AddDays(5)));
+        prestamos.AgregarPrestamo(new Prestamo(2, principito, luis, DateTime.Today.AddDays(-20), DateTime.Today.AddDays(-6)));
+        prestamos.AgregarPrestamo(new Prestamo(3, codigoDaVinci, maria, DateTime.Today.AddDays(-10), DateTime.Today.AddDays(-2), DateTime.Today.AddDays(-1)));
+
+        Console.WriteLine("\n=== EV08: gestión con List<T> y Services ===");
+        Console.WriteLine("Array frente a List<T>:");
+        string[] categoriasArray = { "Novela", "Fábula", "Misterio" };
+        var categoriasLista = new List<string> { "Novela", "Fábula" };
+        categoriasLista.Add("Misterio");
+        Console.WriteLine($"Array (tamaño fijo, {categoriasArray.Length}): {string.Join(", ", categoriasArray)}");
+        Console.WriteLine($"List<T> (tamaño dinámico, {categoriasLista.Count}): {string.Join(", ", categoriasLista)}");
+        Console.WriteLine("El array tiene tamaño fijo; List<T> permite agregar o quitar elementos durante la ejecución.");
+
+        Console.WriteLine("\nBúsquedas:");
+        Console.WriteLine($"Libro por ISBN: {libros.BuscarPorISBN("9780307474728")?.Titulo ?? "sin resultados"}");
+        Console.WriteLine($"Usuario por documento: {usuarios.BuscarPorDocumento("1002")?.Nombre ?? "sin resultados"}");
+        var prestamoBuscado = prestamos.BuscarPorId(2);
+        Console.WriteLine(prestamoBuscado is null
+            ? "Préstamo por ID: sin resultados"
+            : $"Préstamo por ID: {prestamoBuscado.Id} - {prestamoBuscado.Libro.Titulo} ({(prestamoBuscado.EstaVencido() ? EstadoPrestamo.Vencido : prestamoBuscado.Estado)})");
+
+        Console.WriteLine("\nOrdenamientos:");
+        Console.WriteLine("Libros: " + string.Join(" | ", libros.OrdenarPorTitulo().Select(l => l.Titulo)));
+        Console.WriteLine("Usuarios: " + string.Join(" | ", usuarios.OrdenarPorNombre().Select(u => u.Nombre)));
+        Console.WriteLine("Préstamos por vencimiento: " + string.Join(" | ", prestamos.OrdenarPorFechaLimite().Select(p => $"#{p.Id} ({p.FechaVencimiento:dd/MM/yyyy})")));
+
+        Console.WriteLine("\nKPIs:");
+        Console.WriteLine($"Libros: {libros.TotalLibros()} total, {libros.TotalDisponibles()} disponibles, {libros.TotalPrestados()} prestados");
+        Console.WriteLine($"Usuarios: {usuarios.TotalUsuarios()} total, {usuarios.TotalActivos()} activos, {usuarios.TotalInactivos()} inactivos");
+        Console.WriteLine($"Préstamos: {prestamos.TotalPrestamos()} total, {prestamos.TotalActivos()} activos, {prestamos.TotalVencidos()} vencidos, {prestamos.TotalDevueltos()} devueltos");
+        Console.WriteLine($"Promedio de días de préstamo: {prestamos.PromedioDiasPrestamo():F1}");
+        Console.WriteLine($"Promedio de días de préstamos devueltos: {prestamos.PromedioDiasPrestamosDevueltos():F1}");
+        prestamos.RegistrarDevolucion(1);
+        Console.WriteLine($"Devolución registrada para préstamo 1: libro disponible = {cienAnios.Disponible}");
     }
 
     private static void ConfirmResetData()
