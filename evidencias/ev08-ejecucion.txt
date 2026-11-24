@@ -1,0 +1,43 @@
+
+=== Menú principal ===
+1. Libros
+2. Usuarios
+3. Préstamos
+4. Búsquedas y reportes
+5. Guardar / Cargar datos
+6. Demostración EV08 (servicios)
+7. Salir
+Seleccione una opción: 
+=== EV08: gestión con List<T> y Services ===
+Array frente a List<T>:
+Array (tamaño fijo, 3): Novela, Fábula, Misterio
+List<T> (tamaño dinámico, 3): Novela, Fábula, Misterio
+El array tiene tamaño fijo; List<T> permite agregar o quitar elementos durante la ejecución.
+
+Búsquedas:
+Libro por ISBN: Cien años de soledad
+Usuario por documento: Luis Gómez
+Préstamo por ID: 2 - El principito (Vencido)
+
+Ordenamientos:
+Libros: Cien años de soledad | El código Da Vinci | El principito
+Usuarios: Ana Pérez | Luis Gómez | María Rojas
+Préstamos por vencimiento: #2 (18/11/2026) | #3 (22/11/2026) | #1 (29/11/2026)
+
+KPIs:
+Libros: 3 total, 1 disponibles, 2 prestados
+Usuarios: 3 total, 2 activos, 1 inactivos
+Préstamos: 3 total, 1 activos, 1 vencidos, 1 devueltos
+Promedio de días de préstamo: 11,3
+Promedio de días de préstamos devueltos: 9,0
+Devolución registrada para préstamo 1: libro disponible = True
+
+=== Menú principal ===
+1. Libros
+2. Usuarios
+3. Préstamos
+4. Búsquedas y reportes
+5. Guardar / Cargar datos
+6. Demostración EV08 (servicios)
+7. Salir
+Seleccione una opción: ¿Guardar antes de salir? (S/N): Saliendo del programa.
