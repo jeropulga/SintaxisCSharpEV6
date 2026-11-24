@@ -24,6 +24,11 @@ public class PrestamoService
     public int TotalVencidos() => prestamos.Count(p => EstadoActual(p) == EstadoPrestamo.Vencido);
     public int TotalDevueltos() => prestamos.Count(p => EstadoActual(p) == EstadoPrestamo.Devuelto);
     public double PromedioDiasPrestamo() => prestamos.Count == 0 ? 0 : prestamos.Average(p => p.DiasTranscurridos());
+    public double PromedioDiasPrestamosDevueltos()
+    {
+        var devueltos = prestamos.Where(p => EstadoActual(p) == EstadoPrestamo.Devuelto).ToList();
+        return devueltos.Count == 0 ? 0 : devueltos.Average(p => p.DiasTranscurridos());
+    }
 
     private static EstadoPrestamo EstadoActual(Prestamo prestamo) =>
         prestamo.FechaDevolucion.HasValue || prestamo.Estado == EstadoPrestamo.Devuelto
